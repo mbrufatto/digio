@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ProductsViewController.swift
 //  Digio
 //
 //  Created by Marcio Habigzang Brufatto on 22/11/24.
@@ -7,13 +7,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ProductsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
-
-
 }
-
