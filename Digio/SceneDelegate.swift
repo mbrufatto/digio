@@ -8,16 +8,24 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
+    var coordinator: ProductsCoordinator?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        let productsViewController = ProductsViewController()
-        window?.rootViewController = productsViewController
-        window?.makeKeyAndVisible()
+        
+        let navigationController = UINavigationController()
+        let networkService = NetworkService()
+        let coordinator = ProductsCoordinator(navigationController: navigationController, networkService: networkService)
+        self.coordinator = coordinator
+        
+        coordinator.start()
+        
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = navigationController
+        self.window = window
+        window.makeKeyAndVisible()
     }
-
 }
 
