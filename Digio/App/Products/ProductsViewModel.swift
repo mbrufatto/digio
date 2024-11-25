@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProductsViewModelProtocol: AnyObject {
     var products: Products? { get }
+    func createCollectionView(for type: CollectionType) -> UICollectionView
     var onProductsUpdated: (() -> Void)? { get set }
     var onError: ((Error) -> Void)? { get set }
     func fetchProducts()
@@ -45,5 +46,19 @@ class ProductsViewModel: ProductsViewModelProtocol {
                 }
             }
         }
+    }
+    
+    func createCollectionView(for type: CollectionType) -> UICollectionView {
+        let configuration: CollectionViewConfiguration
+        switch type {
+        case .spotlight:
+            configuration = CollectionViewConfiguration(itemSize: CGSize(width: 350, height: 180), spacing: 20, scrollDirection: .horizontal)
+        case .cash:
+            configuration = CollectionViewConfiguration(itemSize: CGSize(width: 350, height: 100), spacing: 0, scrollDirection: .horizontal)
+        case .products:
+            configuration = CollectionViewConfiguration(itemSize: CGSize(width: 110, height: 110), spacing: 20, scrollDirection: .horizontal)
+        }
+        let factory = CollectionFactoryMap.factory(for: type)
+        return factory.createCollectionView(with: configuration)
     }
 }
