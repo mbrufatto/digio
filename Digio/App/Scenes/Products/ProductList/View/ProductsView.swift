@@ -9,7 +9,7 @@ import UIKit
 
 class ProductsView: UIView {
     
-    var onProductSelected: ((Product) -> Void)?
+    var onProductSelected: ((CollectionItem) -> Void)?
     
     private let logo: UIImageView = {
         let imageView = UIImageView()

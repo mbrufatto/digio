@@ -12,6 +12,8 @@ class CollectionTableViewCell: UITableViewCell {
     
     private var collectionView: UICollectionView!
     private var colletionType: CollectionType!
+
+    var selectProduct: ((CollectionItem) -> Void)?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -104,7 +106,7 @@ class CollectionTableViewCell: UITableViewCell {
 extension CollectionTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Item selecionado: \(items[indexPath.row].name)")
+        selectProduct?(items[indexPath.row])
     }
 }
 

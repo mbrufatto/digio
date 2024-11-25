@@ -22,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         coordinator.start()
         
+        navigationController.navigationBar.tintColor = UIColor(named: "PrimaryColor")
+        
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = navigationController
         self.window = window
