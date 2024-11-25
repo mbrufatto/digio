@@ -29,6 +29,7 @@ class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = ""
         setupTableView()
         setupBindings()
         viewModel.fetchProducts()
@@ -98,6 +99,10 @@ extension ProductsViewController: UITableViewDataSource {
             cell.configure(with: collectionView, items: products.products.map { CollectionItem(name: $0.name, imageURL: $0.imageURL, description: $0.description) }, collectionType: .products, title: "Produtos")
         default:
             return UITableViewCell()
+        }
+        
+        cell.selectProduct = { [weak self] product in
+            self?.coordinator.showProductDetails(for: product)
         }
         
         return cell

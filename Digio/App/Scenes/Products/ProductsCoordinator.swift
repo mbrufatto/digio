@@ -8,7 +8,8 @@ import UIKit
 
 protocol ProductsCoordinatorProtocol: AnyObject {
     func start()
-    func showProductDetails(for product: Product)
+    func showProductDetails(for product: CollectionItem)
+    func didTapBuyButton(for product: CollectionItem)
 }
 
 class ProductsCoordinator: ProductsCoordinatorProtocol {
@@ -26,7 +27,14 @@ class ProductsCoordinator: ProductsCoordinatorProtocol {
         navigationController.setViewControllers([productsViewController], animated: false)
     }
     
-    func showProductDetails(for product: Product) {
+    func showProductDetails(for product: CollectionItem) {
+        let viewModel = ProductDetailViewModel(product: product)
+        let productDetailsViewController = ProductDetailsViewController(viewModel: viewModel, coordinator: self)
+        navigationController.pushViewController(productDetailsViewController, animated: true)
+    }
+    
+    func didTapBuyButton(for product: CollectionItem) {
+        print("Comprando assinatura do produto: \(product.name)")
     }
 }
 
