@@ -65,9 +65,15 @@ class ProductsViewController: UIViewController {
 extension ProductsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        switch indexPath.row {
+        case 0:
+            return 230
+        case 1, 2:
+            return 170
+        default:
+            return 0
+        }
     }
-    
 }
 
 extension ProductsViewController: UITableViewDataSource {
@@ -78,18 +84,22 @@ extension ProductsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let products = viewModel.products else { return UITableViewCell() }
         
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.reuseIdentifier, for: indexPath) as! CollectionTableViewCell
-            cell.configure(with: products.spotlight.map { CollectionItem(name: $0.name, imageURL: $0.bannerURL, description: $0.description) }, title: "")
-            return cell
-        } else if indexPath.row == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.reuseIdentifier, for: indexPath) as! CollectionTableViewCell
-            cell.configure(with: [CollectionItem(name: products.cash.title, imageURL: products.cash.bannerURL, description: products.cash.description)], title: "Digio Cash")
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.reuseIdentifier, for: indexPath) as! CollectionTableViewCell
-            cell.configure(with: products.products.map { CollectionItem(name: $0.name, imageURL: $0.imageURL, description: $0.description) }, title: "Produtos")
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.reuseIdentifier, for: indexPath) as! CollectionTableViewCell
+        
+        switch indexPath.row {
+        case 0:
+            let collectionView = viewModel.createCollectionView(for: .spotlight)
+            cell.configure(with: collectionView, items: products.spotlight.map { CollectionItem(name: $0.name, imageURL: $0.bannerURL, description: $0.description) }, collectionType: .spotlight)
+        case 1:
+            let collectionView = viewModel.createCollectionView(for: .cash)
+            cell.configure(with: collectionView, items: [CollectionItem(name: products.cash.title, imageURL: products.cash.bannerURL, description: products.cash.description)], collectionType: .cash, title: "Digio Cash")
+        case 2:
+            let collectionView = viewModel.createCollectionView(for: .products)
+            cell.configure(with: collectionView, items: products.products.map { CollectionItem(name: $0.name, imageURL: $0.imageURL, description: $0.description) }, collectionType: .products, title: "Produtos")
+        default:
+            return UITableViewCell()
         }
+        
+        return cell
     }
 }

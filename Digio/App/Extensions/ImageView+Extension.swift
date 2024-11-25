@@ -14,13 +14,9 @@ extension UIImageView {
         }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            if let error = error {
-                print("Erro ao carregar imagem: \(error.localizedDescription)")
-                return
-            }
+            if error != nil { return }
             
             guard let data = data, let image = UIImage(data: data) else {
-                print("Erro: Dados de imagem inválidos")
                 DispatchQueue.main.async {
                     self?.image = placeHolder
                 }

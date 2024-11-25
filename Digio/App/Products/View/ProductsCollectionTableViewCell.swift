@@ -10,6 +10,9 @@ class CollectionTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "CollectionTableViewCell"
     
+    private var collectionView: UICollectionView!
+    private var colletionType: CollectionType!
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
@@ -17,25 +20,10 @@ class CollectionTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        layout.itemSize = CGSize(width: 300, height: 120)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        return collectionView
-    }()
-    
     private var items: [CollectionItem] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupCollectionView()
-        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -54,37 +42,80 @@ class CollectionTableViewCell: UITableViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
     
-    func configure(with items: [CollectionItem], title: String) {
-        titleLabel.text = title
-        self.items = items
-        collectionView.reloadData()
+    func configure(with collectionView: UICollectionView, items: [CollectionItem]?, collectionType: CollectionType, title: String = "") {
+        
+        self.collectionView = collectionView
+        setupCollectionView()
+        setupConstraints()
+        self.colletionType = collectionType
+        
+        configureCollectionLeadingAnchor()
+        configureTitleLabel(text: title)
+    
+        DispatchQueue.main.async {
+            self.items = items ?? []
+            collectionView.reloadData()
+        }
+    }
+    
+    private func configureTitleLabel(text: String) {
+        
+        titleLabel.textColor = UIColor(named: "PrimaryColor")
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        
+        switch colletionType {
+        case .spotlight:
+            titleLabel.text = text
+        case .cash:
+            let range = (text as NSString).range(of: "Cash")
+            let attributedString = NSMutableAttributedString(string: text)
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.gray, range: range)
+            titleLabel.attributedText = attributedString
+        case .products:
+            titleLabel.text = text
+        case .none:
+            titleLabel.text = ""
+        }
+        
+    }
+    
+    private func configureCollectionLeadingAnchor() {
+        switch colletionType {
+        case .cash, .spotlight:
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        case .products:
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        case .none:
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        }
     }
 }
 
-extension CollectionTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension CollectionTableViewCell: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Item selecionado: \(items[indexPath.row].name)")
+    }
+}
+
+extension CollectionTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.reuseIdentifier, for: indexPath) as! ProductCollectionViewCell
-        cell.configure(with: items[indexPath.row])
+        cell.configure(with: items[indexPath.row], collectionType: self.colletionType)
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Item selecionado: \(items[indexPath.row].name)")
     }
 }

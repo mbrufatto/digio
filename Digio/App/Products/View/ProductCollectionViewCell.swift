@@ -13,7 +13,6 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -32,27 +31,41 @@ class ProductCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
-        
         contentView.addSubview(imageView)
-        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+    private func setupConstraints(collectionType: CollectionType) {
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        
+        switch collectionType {
+        case .spotlight:
+            imageView.contentMode = .scaleAspectFill
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        case .products:
+            imageView.contentMode = .scaleAspectFit
+            imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+            imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        case .cash:
+            imageView.contentMode = .scaleToFill
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        }
     }
     
-    func configure(with item: CollectionItem) {
+    func configure(with item: CollectionItem, collectionType: CollectionType) {
+        
         if let url = URL(string: item.imageURL) {
             imageView.loadImage(from: url)
         }
+        setupConstraints(collectionType: collectionType)
     }
 }
