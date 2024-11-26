@@ -4,16 +4,25 @@
 //
 //  Created by Marcio Habigzang Brufatto on 22/11/24.
 //
-
-
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, Equatable {
     case invalidURL
     case invalidRequest
     case httpError(statusCode: Int)
     case invalidData
     case decodingError(Error)
+    
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (.invalidURL,.invalidURL): return true
+        case (.invalidRequest,.invalidRequest): return true
+        case (.httpError(let lhsStatusCode),.httpError(let rhsStatusCode)): return lhsStatusCode == rhsStatusCode
+        case (.invalidData,.invalidData): return true
+        case (.decodingError,.decodingError): return true
+        default: return false
+        }
+    }
 }
 
 protocol NetworkServiceProtocol {
@@ -21,6 +30,8 @@ protocol NetworkServiceProtocol {
 }
 
 struct NetworkService: NetworkServiceProtocol {
+    
+    var urlSession: URLSession = URLSession.shared
     
     func request<T: Decodable>(_ endPoint: APIEndpointProtocol, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = endPoint.url else {
@@ -32,7 +43,7 @@ struct NetworkService: NetworkServiceProtocol {
         request.httpMethod = endPoint.method.rawValue
         request.allHTTPHeaderFields = endPoint.headers
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -47,8 +58,8 @@ struct NetworkService: NetworkServiceProtocol {
                 completion(.failure(NetworkError.httpError(statusCode: httpResponse.statusCode)))
                 return
             }
-    
-            guard let data = data, !data.isEmpty else {
+            
+            guard let data = try? Data(contentsOf: url) else {
                 completion(.failure(NetworkError.invalidData))
                 return
             }

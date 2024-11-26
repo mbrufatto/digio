@@ -12,7 +12,7 @@ enum HTTPMethod: String {
 }
 
 protocol APIEndpointProtocol {
-    var path: String { get }
+    var path: String? { get }
     var method: HTTPMethod { get }
     var headers: [String: String]? { get }
     var url: URL? { get }
@@ -20,6 +20,6 @@ protocol APIEndpointProtocol {
 
 extension APIEndpointProtocol {
     var url: URL? {
-        URL(string: APICofiguration.baseURL + path)
+        URL(string: APICofiguration.baseURL + (path ?? ""))
     }
 }
