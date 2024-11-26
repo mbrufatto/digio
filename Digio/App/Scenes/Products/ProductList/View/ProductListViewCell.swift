@@ -6,14 +6,14 @@
 //
 import UIKit
 
-class CollectionTableViewCell: UITableViewCell {
+class ProductListViewCell: UITableViewCell {
     
     static let reuseIdentifier = "CollectionTableViewCell"
     
     private var collectionView: UICollectionView!
     private var colletionType: CollectionType!
 
-    var selectProduct: ((CollectionItem) -> Void)?
+    var selectProduct: ((ProductItem) -> Void)?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -22,7 +22,7 @@ class CollectionTableViewCell: UITableViewCell {
         return label
     }()
     
-    private var items: [CollectionItem] = []
+    private var items: [ProductItem] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,7 +54,7 @@ class CollectionTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with collectionView: UICollectionView, items: [CollectionItem]?, collectionType: CollectionType, title: String = "") {
+    func configure(with collectionView: UICollectionView, items: [ProductItem]?, collectionType: CollectionType, title: String = "") {
         
         self.collectionView = collectionView
         setupCollectionView()
@@ -103,14 +103,14 @@ class CollectionTableViewCell: UITableViewCell {
     }
 }
 
-extension CollectionTableViewCell: UICollectionViewDelegate {
+extension ProductListViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectProduct?(items[indexPath.row])
     }
 }
 
-extension CollectionTableViewCell: UICollectionViewDataSource {
+extension ProductListViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }

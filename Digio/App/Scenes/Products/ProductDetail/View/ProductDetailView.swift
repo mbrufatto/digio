@@ -84,7 +84,7 @@ class ProductDetailView: UIView {
     }
     
     
-    func configure(with product: CollectionItem) {
+    func configure(with product: ProductItem) {
         if let url = URL(string: product.imageURL) {
             image.loadImage(from: url)
         }
