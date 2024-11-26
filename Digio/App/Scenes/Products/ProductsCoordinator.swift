@@ -22,8 +22,8 @@ class ProductsCoordinator: ProductsCoordinatorProtocol {
     }
     
     func start() {
-        let viewModel = ProductsViewModel(networkService: networkService)
-        let productsViewController = ProductsViewController(viewModel: viewModel, coordinator: self)
+        let viewModel = ProductListViewModel(networkService: networkService)
+        let productsViewController = ProductListViewController(viewModel: viewModel, coordinator: self)
         navigationController.setViewControllers([productsViewController], animated: false)
     }
     

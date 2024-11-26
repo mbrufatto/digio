@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ProductsViewController: UIViewController {
+class ProductListViewController: UIViewController {
     
-    private let productsView = ProductsView()
-    private let viewModel: ProductsViewModelProtocol
+    private let productsView = ProductListView()
+    private let viewModel: ProductListViewModelProtocol
     private let coordinator: ProductsCoordinatorProtocol
     
-    init(viewModel: ProductsViewModelProtocol, coordinator: ProductsCoordinator) {
-        self.viewModel = viewModel
+    init(viewModel: ProductListViewModelProtocol, coordinator: ProductsCoordinator) {
+        self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,7 +38,7 @@ class ProductsViewController: UIViewController {
     private func setupTableView() {
         productsView.tableView.delegate = self
         productsView.tableView.dataSource = self
-        productsView.tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.reuseIdentifier)
+        productsView.tableView.register(ProductListViewCell.self, forCellReuseIdentifier: ProductListViewCell.reuseIdentifier)
     }
     
     private func setupBindings() {
@@ -63,7 +63,7 @@ class ProductsViewController: UIViewController {
 }
 
 
-extension ProductsViewController: UITableViewDelegate {
+extension ProductListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
@@ -77,7 +77,7 @@ extension ProductsViewController: UITableViewDelegate {
     }
 }
 
-extension ProductsViewController: UITableViewDataSource {
+extension ProductListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
@@ -85,7 +85,7 @@ extension ProductsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let products = viewModel.products else { return UITableViewCell() }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.reuseIdentifier, for: indexPath) as! CollectionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProductListViewCell.reuseIdentifier, for: indexPath) as! ProductListViewCell
         
         switch indexPath.row {
         case 0:

@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class CollectionTableViewCell: UITableViewCell {
+class ProductListViewCell: UITableViewCell {
     
     static let reuseIdentifier = "CollectionTableViewCell"
     
@@ -103,14 +103,14 @@ class CollectionTableViewCell: UITableViewCell {
     }
 }
 
-extension CollectionTableViewCell: UICollectionViewDelegate {
+extension ProductListViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectProduct?(items[indexPath.row])
     }
 }
 
-extension CollectionTableViewCell: UICollectionViewDataSource {
+extension ProductListViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }

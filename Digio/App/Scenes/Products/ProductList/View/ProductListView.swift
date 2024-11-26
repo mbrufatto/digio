@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductsView: UIView {
+class ProductListView: UIView {
     
     var onProductSelected: ((CollectionItem) -> Void)?
     

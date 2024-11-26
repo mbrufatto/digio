@@ -7,7 +7,7 @@
 import Foundation
 import UIKit
 
-protocol ProductsViewModelProtocol: AnyObject {
+protocol ProductListViewModelProtocol: AnyObject {
     var products: Products? { get }
     func createCollectionView(for type: CollectionType) -> UICollectionView
     var onProductsUpdated: (() -> Void)? { get set }
@@ -15,7 +15,7 @@ protocol ProductsViewModelProtocol: AnyObject {
     func fetchProducts()
 }
 
-class ProductsViewModel: ProductsViewModelProtocol {
+class ProductListViewModel: ProductListViewModelProtocol {
     
     private let networkService: NetworkServiceProtocol
     
