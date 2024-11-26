@@ -6,7 +6,7 @@
 //
 
 struct MockAPIEndpoint: APIEndpointProtocol {
-    var path: String
+    var path: String?
     var method: HTTPMethod
     var headers: [String: String]? = nil
 }

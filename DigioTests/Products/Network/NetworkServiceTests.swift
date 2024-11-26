@@ -10,53 +10,140 @@ import XCTest
 
 class NetworkServiceTests: XCTestCase {
     
-    var mockNetworkService: MockNetworkService!
+    var networkService: NetworkService!
+    var mockURLSession: MockURLSession!
+    var urlSession: URLSession!
     
     override func setUp() {
         super.setUp()
-        mockNetworkService = MockNetworkService()
+        networkService = NetworkService()
+        mockURLSession = MockURLSession()
+        urlSession = mockURLSession
+        networkService.urlSession = urlSession
     }
     
     override func tearDown() {
-        mockNetworkService = nil
         super.tearDown()
+        urlSession = nil
     }
     
-    func testRequestValidEndpoint() {
-        mockNetworkService.shouldFail = false
-        let endpoint = MockAPIEndpoint(path: "/valid", method: .get)
-        let expectation = self.expectation(description: "Valid Request")
-        
-        mockNetworkService.request(endpoint) { (result: Result<Products, Error>) in
-            switch result {
-            case .success(let products):
-                XCTAssertNotNil(products, "Products should not be nil")
-                XCTAssertEqual(products.spotlight.first?.name, "Spotlight Product", "The spotlight product name should match")
-                XCTAssertEqual(products.cash.title, "Cash", "The cash title should match")
-            case .failure(let error):
-                XCTFail("Request failed with error: \(error)")
+    func testRequestSuccess() {
+        // Arrange
+        let endPoint = ProductsAPIEndpoint.products
+        let expectedData = """
+            {
+                "spotlight": [
+                    {
+                        "name": "Spotlight 1",
+                        "bannerURL": "https://example.com/spotlight1",
+                        "description": "Descrição do Spotlight 1"
+                    }
+                ],
+                "products": [
+                    {
+                        "name": "Produto 1",
+                        "imageURL": "https://example.com/produto1",
+                        "description": "Descrição do Produto 1"
+                    }
+                ],
+                "cash": {
+                    "title": "Cash",
+                    "bannerURL": "https://example.com/cash",
+                    "description": "Descrição do Cash"
+                }
             }
+            """.data(using:.utf8)!
+        mockURLSession.data = expectedData
+        mockURLSession.response = HTTPURLResponse(url: URL(string: "https://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        mockURLSession.error = nil
+
+        // Act
+        var result: Result<Products, Error>?
+        let expectation = XCTestExpectation(description: "Wait for request to complete")
+        networkService.request(endPoint) {
+            result = $0
             expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.2)
+
+        // Assert
+        if case.success(let products) = result {
+            XCTAssertEqual(products.spotlight.count, 2)
+            XCTAssertEqual(products.products.count, 3)
+            XCTAssertNotNil(products.cash)
+        } else {
+            XCTFail("Resultado não é um sucesso")
+        }
+    }
+
+    func testRequestFailureInvalidRequest() {
+        // Arrange
+        let endPoint = ProductsAPIEndpoint.invalidRequest
         
-        waitForExpectations(timeout: 2, handler: nil)
+        // Act
+        var result: Result<[String], Error>?
+        let expectation = XCTestExpectation(description: "Wait for request to complete")
+        networkService.request(endPoint) {
+            result = $0
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 0.1)
+        
+        // Assert
+        if case.failure(let error) = result {
+            XCTAssertEqual(error as? NetworkError, NetworkError.invalidRequest)
+        } else {
+            XCTFail("Resultado não é um erro")
+        }
     }
     
-    func testRequestInvalidEndpoint() {
-        mockNetworkService.shouldFail = true
-        let endpoint = MockAPIEndpoint(path: "/invalid", method: .get)
-        let expectation = self.expectation(description: "Invalid Request")
+    func testRequestFailureHTTPError() {
+        // Arrange
+        let endPoint = ProductsAPIEndpoint.products
+        mockURLSession.response = HTTPURLResponse(url: URL(string: "https://example.com")!, statusCode: 404, httpVersion: nil, headerFields: nil)!
         
-        mockNetworkService.request(endpoint) { (result: Result<Products, Error>) in
-            switch result {
-            case .success:
-                XCTFail("Request should not succeed")
-            case .failure(let error):
-                XCTAssertNotNil(error, "Error should not be nil")
-            }
+        // Act
+        var result: Result<[String], Error>?
+        let expectation = XCTestExpectation(description: "Wait for request to complete")
+        networkService.request(endPoint) {
+            result = $0
             expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.1)
         
-        waitForExpectations(timeout: 2, handler: nil)
+        // Assert
+        if case.failure(let error) = result {
+            if case.httpError(let statusCode) = error as! NetworkError {
+                XCTAssertEqual(statusCode, 404)
+            } else {
+                XCTFail("Erro não é um httpError")
+            }
+        } else {
+            XCTFail("Resultado não é um erro")
+        }
+    }
+    
+    func testRequestFailureDecodingError() {
+        // Arrange
+        let endPoint = ProductsAPIEndpoint.products
+        mockURLSession.data = "Dados inválidos".data(using:.utf8)!
+        
+        // Act
+        var result: Result<[String], Error>?
+        let expectation = XCTestExpectation(description: "Wait for request to complete")
+        networkService.request(endPoint) {
+            result = $0
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 0.1)
+        
+        // Assert
+        if case.failure(let error) = result {
+            if case.decodingError(_) = error as! NetworkError {
+                XCTFail("Erro não é um decodingError")
+            }
+        } else {
+            XCTFail("Resultado não é um erro")
+        }
     }
 }

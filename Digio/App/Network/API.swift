@@ -9,7 +9,6 @@ enum API {
     case products
 }
 
-
 struct APICofiguration {
     static let baseURL: String = "https://7hgi9vtkdc.execute-api.sa-east-1.amazonaws.com/sandbox"
 }

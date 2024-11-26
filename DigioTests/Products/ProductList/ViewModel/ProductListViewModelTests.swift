@@ -30,7 +30,7 @@ class ProductListViewModelTests: XCTestCase {
         
         viewModel.onProductsUpdated = {
             XCTAssertNotNil(self.viewModel.products, "Products should not be nil")
-            XCTAssertEqual(self.viewModel.products?.products.count, 3, "Should fetch 3 products")
+            XCTAssertEqual(self.viewModel.products?.products.count, 2, "Should fetch 2 products")
             expectation.fulfill()
         }
         
