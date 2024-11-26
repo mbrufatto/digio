@@ -90,13 +90,13 @@ extension ProductListViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let collectionView = viewModel.createCollectionView(for: .spotlight)
-            cell.configure(with: collectionView, items: products.spotlight.map { CollectionItem(name: $0.name, imageURL: $0.bannerURL, description: $0.description) }, collectionType: .spotlight)
+            cell.configure(with: collectionView, items: products.spotlight.map { ProductItem(name: $0.name, imageURL: $0.bannerURL, description: $0.description) }, collectionType: .spotlight)
         case 1:
             let collectionView = viewModel.createCollectionView(for: .cash)
-            cell.configure(with: collectionView, items: [CollectionItem(name: products.cash.title, imageURL: products.cash.bannerURL, description: products.cash.description)], collectionType: .cash, title: "Digio Cash")
+            cell.configure(with: collectionView, items: [ProductItem(name: products.cash.title, imageURL: products.cash.bannerURL, description: products.cash.description)], collectionType: .cash, title: "Digio Cash")
         case 2:
             let collectionView = viewModel.createCollectionView(for: .products)
-            cell.configure(with: collectionView, items: products.products.map { CollectionItem(name: $0.name, imageURL: $0.imageURL, description: $0.description) }, collectionType: .products, title: "Produtos")
+            cell.configure(with: collectionView, items: products.products.map { ProductItem(name: $0.name, imageURL: $0.imageURL, description: $0.description) }, collectionType: .products, title: "Produtos")
         default:
             return UITableViewCell()
         }

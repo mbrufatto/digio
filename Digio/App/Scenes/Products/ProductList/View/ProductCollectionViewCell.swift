@@ -61,7 +61,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with item: CollectionItem, collectionType: CollectionType) {
+    func configure(with item: ProductItem, collectionType: CollectionType) {
         
         if let url = URL(string: item.imageURL) {
             imageView.loadImage(from: url)

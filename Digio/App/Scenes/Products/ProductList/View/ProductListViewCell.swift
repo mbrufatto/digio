@@ -13,7 +13,7 @@ class ProductListViewCell: UITableViewCell {
     private var collectionView: UICollectionView!
     private var colletionType: CollectionType!
 
-    var selectProduct: ((CollectionItem) -> Void)?
+    var selectProduct: ((ProductItem) -> Void)?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -22,7 +22,7 @@ class ProductListViewCell: UITableViewCell {
         return label
     }()
     
-    private var items: [CollectionItem] = []
+    private var items: [ProductItem] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,7 +54,7 @@ class ProductListViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with collectionView: UICollectionView, items: [CollectionItem]?, collectionType: CollectionType, title: String = "") {
+    func configure(with collectionView: UICollectionView, items: [ProductItem]?, collectionType: CollectionType, title: String = "") {
         
         self.collectionView = collectionView
         setupCollectionView()

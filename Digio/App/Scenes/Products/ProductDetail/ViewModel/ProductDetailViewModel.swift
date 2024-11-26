@@ -7,13 +7,13 @@
 
 class ProductDetailViewModel {
     
-    private var product: CollectionItem?
+    private var product: ProductItem?
     
-    init(product: CollectionItem) {
+    init(product: ProductItem) {
         self.product = product
     }
     
-    func getProduct() -> CollectionItem? {
+    func getProduct() -> ProductItem? {
         product
     }
 }
