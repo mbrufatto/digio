@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		61126E1F2CF6245E0003B8B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61467DF12CF10FEA00FF48D0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61467DF82CF10FEA00FF48D0;
+			remoteInfo = Digio;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		61126E1B2CF6245E0003B8B3 /* DigioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DigioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61467DF92CF10FEA00FF48D0 /* Digio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Digio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		61126E1C2CF6245E0003B8B3 /* DigioTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DigioTests;
+			sourceTree = "<group>";
+		};
 		61467DFB2CF10FEA00FF48D0 /* Digio */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		61126E182CF6245E0003B8B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61467DF62CF10FEA00FF48D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				61467DFB2CF10FEA00FF48D0 /* Digio */,
+				61126E1C2CF6245E0003B8B3 /* DigioTests */,
 				61467DFA2CF10FEA00FF48D0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				61467DF92CF10FEA00FF48D0 /* Digio.app */,
+				61126E1B2CF6245E0003B8B3 /* DigioTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		61126E1A2CF6245E0003B8B3 /* DigioTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61126E232CF6245E0003B8B3 /* Build configuration list for PBXNativeTarget "DigioTests" */;
+			buildPhases = (
+				61126E172CF6245E0003B8B3 /* Sources */,
+				61126E182CF6245E0003B8B3 /* Frameworks */,
+				61126E192CF6245E0003B8B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				61126E202CF6245E0003B8B3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				61126E1C2CF6245E0003B8B3 /* DigioTests */,
+			);
+			name = DigioTests;
+			packageProductDependencies = (
+			);
+			productName = DigioTests;
+			productReference = 61126E1B2CF6245E0003B8B3 /* DigioTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		61467DF82CF10FEA00FF48D0 /* Digio */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61467E0C2CF10FEC00FF48D0 /* Build configuration list for PBXNativeTarget "Digio" */;
@@ -93,6 +141,10 @@
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					61126E1A2CF6245E0003B8B3 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 61467DF82CF10FEA00FF48D0;
+					};
 					61467DF82CF10FEA00FF48D0 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -113,11 +165,19 @@
 			projectRoot = "";
 			targets = (
 				61467DF82CF10FEA00FF48D0 /* Digio */,
+				61126E1A2CF6245E0003B8B3 /* DigioTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		61126E192CF6245E0003B8B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61467DF72CF10FEA00FF48D0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +188,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		61126E172CF6245E0003B8B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61467DF52CF10FEA00FF48D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +204,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		61126E202CF6245E0003B8B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61467DF82CF10FEA00FF48D0 /* Digio */;
+			targetProxy = 61126E1F2CF6245E0003B8B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		61126E212CF6245E0003B8B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6NR5MWZFA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.mantratech.DigioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Digio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Digio";
+			};
+			name = Debug;
+		};
+		61126E222CF6245E0003B8B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6NR5MWZFA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.mantratech.DigioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Digio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Digio";
+			};
+			name = Release;
+		};
 		61467E0D2CF10FEC00FF48D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -316,6 +427,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		61126E232CF6245E0003B8B3 /* Build configuration list for PBXNativeTarget "DigioTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61126E212CF6245E0003B8B3 /* Debug */,
+				61126E222CF6245E0003B8B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		61467DF42CF10FEA00FF48D0 /* Build configuration list for PBXProject "Digio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
