@@ -1,4 +1,4 @@
-# EventsSi
+# Digio
 Para este projeto, não foi utilizada storyboard, foi utizado view code, pelo motivo de evitar possíveis conflitos na hora de comitar o código.
 
 Neste projeto comecei pela conexão com API, criando a classe de conexão e os modelos.
